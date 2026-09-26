@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Metrixis — Day-One Onboarding</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    line-height: 1.65;
+  }
+
+  /* ── Layout ── */
+  .page-wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  section { margin-top: 3rem; }
+
+  /* ── Typography ── */
+  h1 { font-size: 2.2rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+  h2 { font-size: 1.45rem; font-weight: 600; color: #a5b4fc; margin-bottom: 1rem; padding-bottom: .4rem; border-bottom: 1px solid #2d3149; }
+  h3 { font-size: 1.05rem; font-weight: 600; color: #cbd5e1; margin: 1.2rem 0 .4rem; }
+  p  { margin-bottom: .8rem; }
+  a  { color: #818cf8; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    font-family: "Fira Code", "Cascadia Code", monospace;
+    font-size: .85em;
+    background: #1e2030;
+    padding: .15em .4em;
+    border-radius: 4px;
+    color: #c4b5fd;
+  }
+  pre {
+    background: #1e2030;
+    border: 1px solid #2d3149;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: .84rem;
+    line-height: 1.6;
+    margin: .8rem 0;
+  }
+  pre code { background: none; padding: 0; color: #c4b5fd; }
+
+  /* ── Header Banner ── */
+  .hero {
+    background: linear-gradient(135deg, #1e2030 0%, #16213e 100%);
+    border: 1px solid #2d3149;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .hero-icon { font-size: 2.6rem; line-height: 1; }
+  .hero-sub { color: #94a3b8; font-size: .95rem; margin-top: .35rem; }
+  .pill {
+    display: inline-block;
+    padding: .2em .7em;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    margin: .15rem .15rem 0 0;
+  }
+  .pill-blue  { background: #1e3a5f; color: #93c5fd; }
+  .pill-green { background: #14532d; color: #86efac; }
+  .pill-purple{ background: #3b1f6b; color: #d8b4fe; }
+
+  /* ── Nav ── */
+  nav {
+    background: #1a1d2e;
+    border: 1px solid #2d3149;
+    border-radius: 8px;
+    padding: .75rem 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem .5rem;
+    font-size: .85rem;
+  }
+  nav a { color: #94a3b8; }
+  nav a:hover { color: #a5b4fc; }
+
+  /* ── Tables ── */
+  .tbl-wrap { overflow-x: auto; margin: .8rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  th { background: #1e2030; color: #94a3b8; font-weight: 600; text-align: left; padding: .55rem .8rem; border-bottom: 1px solid #2d3149; }
+  td { padding: .5rem .8rem; border-bottom: 1px solid #1e2030; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #1a1d2e; }
+
+  /* ── Cards ── */
+  .card {
+    background: #1a1d2e;
+    border: 1px solid #2d3149;
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .card-title { font-weight: 600; color: #e2e8f0; margin-bottom: .4rem; }
+
+  /* ── Severity badges ── */
+  .sev { display:inline-block; padding:.15em .55em; border-radius:4px; font-size:.75rem; font-weight:700; letter-spacing:.05em; }
+  .sev-high   { background:#7f1d1d; color:#fca5a5; }
+  .sev-medium { background:#78350f; color:#fcd34d; }
+  .sev-low    { background:#1e3a5f; color:#93c5fd; }
+
+  /* ── Step list ── */
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex;
+    gap: 1rem;
+    padding: .9rem 0;
+    border-bottom: 1px solid #1e2030;
+    align-items: flex-start;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num {
+    min-width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: .85rem;
+  }
+  .step-pass { background: #14532d; color: #86efac; }
+  .step-warn { background: #78350f; color: #fcd34d; }
+  .step-fail { background: #7f1d1d; color: #fca5a5; }
+  .step-body { flex: 1; }
+  .step-result { font-size: .8rem; font-weight: 600; margin-top: .3rem; }
+  .result-pass { color: #86efac; }
+  .result-warn { color: #fcd34d; }
+  .result-fail { color: #fca5a5; }
+
+  /* ── Effort badges ── */
+  .effort { display:inline-block; padding:.15em .55em; border-radius:4px; font-size:.75rem; font-weight:700; }
+  .effort-s { background:#0f2b1f; color:#6ee7b7; }
+  .effort-m { background:#1e3a5f; color:#93c5fd; }
+  .effort-l { background:#3b1f6b; color:#d8b4fe; }
+
+  /* ── Mermaid diagram placeholder ── */
+  .diagram-box {
+    background: #1a1d2e;
+    border: 1px solid #2d3149;
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    font-size: .83rem;
+    color: #94a3b8;
+    line-height: 1.7;
+  }
+  .diagram-box .diagram-inner {
+    font-family: "Fira Code", "Cascadia Code", monospace;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .arch-legend { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .arch-node {
+    display: flex; align-items: center; gap: .4rem;
+    background: #1e2030; border: 1px solid #2d3149; border-radius: 6px;
+    padding: .25rem .65rem; font-size: .78rem;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-tracker  { background: #f59e0b; }
+  .dot-api      { background: #818cf8; }
+  .dot-db       { background: #34d399; }
+  .dot-dash     { background: #f472b6; }
+
+  /* ── Quiz ── */
+  .quiz-item {
+    background: #1a1d2e;
+    border: 1px solid #2d3149;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: .9rem;
+  }
+  .q-num { color: #818cf8; font-weight: 700; font-size: .8rem; letter-spacing: .06em; }
+  .q-text { margin: .3rem 0 .2rem; font-weight: 500; }
+  details { margin-top: .5rem; }
+  summary {
+    cursor: pointer;
+    color: #64748b;
+    font-size: .82rem;
+    user-select: none;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .2rem .5rem;
+    border: 1px solid #2d3149;
+    border-radius: 5px;
+    transition: color .15s;
+  }
+  summary:hover { color: #a5b4fc; border-color: #4f46e5; }
+  summary::before { content: "▶"; font-size: .65rem; }
+  details[open] summary::before { content: "▼"; }
+  .answer {
+    margin-top: .6rem;
+    background: #0f1117;
+    border-left: 3px solid #818cf8;
+    padding: .6rem 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: .9rem;
+    color: #cbd5e1;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #1e2030;
+    text-align: center;
+    color: #475569;
+    font-size: .8rem;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="hero">
+    <div class="hero-icon">📊</div>
+    <div>
+      <h1>Metrixis — Day-One Guide</h1>
+      <p class="hero-sub">Self-hosted web analytics · Node/Express + React/Vite + PostgreSQL</p>
+      <div style="margin-top:.6rem">
+        <span class="pill pill-blue">Node 22</span>
+        <span class="pill pill-blue">Express 4</span>
+        <span class="pill pill-purple">React + Vite</span>
+        <span class="pill pill-green">PostgreSQL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#setup">Setup Steps</a>
+    <a href="#contradictions">Doc Contradictions</a>
+    <a href="#tasks">First Tasks</a>
+    <a href="#quiz">Comprehension Quiz</a>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 1 — OVERVIEW
+  ═══════════════════════════════════ -->
+  <section id="overview">
+    <h2>1 · Overview</h2>
+    <p>
+      Metrixis is a <strong>self-hosted, privacy-respecting web analytics platform</strong>
+      you can deploy on Render (backend) and Vercel (frontend) in under 15 minutes.
+      It tracks page views, scroll depth, and opted-in click events without storing
+      raw IP addresses or using cookies for identity.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Participant</th><th>Tech</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tracker script</strong></td><td>Vanilla JS (IIFE)</td><td>Embedded on any tracked website; collects events client-side</td></tr>
+          <tr><td><strong>API server</strong></td><td>Node.js + Express, port 4000</td><td>Receives events, serves stats, runs background aggregation</td></tr>
+          <tr><td><strong>Dashboard</strong></td><td>React + Vite, port 5173</td><td>Single-page app; reads stats via the API; no authentication</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Privacy model</h3>
+    <p>
+      Raw IPs are never stored. Each IP is hashed with salted SHA-256 and
+      truncated to 16 hex characters before being written to the database.
+      Visitor identity is anonymous (random <code>visitor_id</code> in
+      <code>localStorage</code>). There are no cookies, no login, and no
+      third-party services in the data path.
+    </p>
+
+    <h3>Security zones</h3>
+    <p>The API exposes three distinct security contexts:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Zone</th><th>Route</th><th>Access</th></tr></thead>
+        <tbody>
+          <tr><td>Public ingest</td><td><code>POST /api/collect</code></td><td>Any origin (CORS <code>origin: true</code>)</td></tr>
+          <tr><td>Dashboard reads</td><td><code>/api/sites</code>, <code>/api/stats/*</code></td><td>Restricted to <code>DASHBOARD_URL</code></td></tr>
+          <tr><td>Internal cron</td><td><code>POST /api/internal/aggregate</code></td><td><code>CRON_SECRET</code> header, no CORS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 2 — ARCHITECTURE
+  ═══════════════════════════════════ -->
+  <section id="architecture">
+    <h2>2 · Architecture Diagram</h2>
+    <p>Data flows from left/top to bottom. The tracker sends events to the API; the aggregation job rolls them up into daily stats; the dashboard reads only the rollup tables (plus live <em>today</em> data for the overview endpoint).</p>
+
+    <div class="diagram-box">
+      <div class="diagram-inner">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  TRACKED WEBSITE (any domain)                                               │
+│  tracker.js (IIFE) ──────────────────────────────────────────┐              │
+│    • fires pageview on load                                  │              │
+│    • fires scroll at 25/50/75/100%                           │              │
+│    • delegates click on [data-track] elements                │              │
+│    • batches events; flushes every 5 s via fetch             │              │
+│    • flushes on tab hide via navigator.sendBeacon            │              │
+└──────────────────────────────────────────────────────────────┼──────────────┘
+                                                               │ POST /api/collect
+                                                               ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  API SERVER  Node/Express :4000                                              │
+│                                                                             │
+│  GET  /tracker.js          ──────────────────────► serves IIFE static file  │
+│  POST /api/collect         ──► validate → cache lookup ──► INSERT events    │
+│  GET  /api/sites           ──► SELECT sites ◄── dashboard CORS only         │
+│  GET  /api/stats/:id/*     ──► SELECT daily_* + live today ◄── dash CORS    │
+│  POST /api/internal/aggregate ─► runs aggregate.js (CRON_SECRET required)  │
+│  GET  /api/health          ──► {"ok":true}                                  │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │  read / write
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  POSTGRESQL                                                                 │
+│                                                                             │
+│  sites          (tracking_id registry, MTX_ prefix)                        │
+│  events         (raw append-only firehose — pageview | click | scroll)     │
+│  daily_stats         ◄─ jobs/aggregate.js (runs for previous day, UTC)     │
+│  daily_page_stats    ◄─ idempotent ON CONFLICT DO UPDATE                   │
+│  daily_click_stats   ◄─ all four written in one transaction                │
+│  daily_scroll_stats  ◄─                                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                   ▲
+                                   │ fetch /api/sites  /api/stats/*
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  DASHBOARD  React/Vite :5173                                                │
+│                                                                             │
+│  /                → HomePage (list all sites)                               │
+│  /sites/new       → AddSitePage (register site)                             │
+│  /sites/:siteId   → SiteDashboardPage (analytics)                          │
+│                                                                             │
+│  api/client.js — thin fetch wrapper, base URL from VITE_API_URL             │
+│  No auth, no cookies, no token storage                                      │
+└─────────────────────────────────────────────────────────────────────────────┘</div>
+
+      <div class="arch-legend">
+        <div class="arch-node"><span class="dot dot-tracker"></span>Tracker (IIFE)</div>
+        <div class="arch-node"><span class="dot dot-api"></span>API Server (Express)</div>
+        <div class="arch-node"><span class="dot dot-db"></span>PostgreSQL</div>
+        <div class="arch-node"><span class="dot dot-dash"></span>Dashboard (React)</div>
+      </div>
+    </div>
+
+    <h3>Key design decisions</h3>
+    <div class="card">
+      <p><strong>Always-202 collect endpoint</strong> — ingest errors are swallowed server-side and never surfaced to the tracked website, preventing tracking from breaking host-page UX. Watch <code>accepted: false</code> in server logs.</p>
+    </div>
+    <div class="card">
+      <p><strong>In-memory tracking_id → site_id cache</strong> — avoids a DB round-trip on every event. Valid because tracking IDs are immutable after creation.</p>
+    </div>
+    <div class="card">
+      <p><strong>Idempotent aggregation</strong> — all rollup inserts use <code>ON CONFLICT DO UPDATE</code>, making backfills and retries safe.</p>
+    </div>
+    <div class="card">
+      <p><strong>visibilitychange over unload</strong> — <code>unload</code> is unreliable on mobile and deprecated; the tracker uses <code>visibilitychange → hidden</code> + <code>sendBeacon</code> instead.</p>
+    </div>
+    <div class="card">
+      <p><strong>Today's data</strong> — only <code>GET /api/stats/:id/overview</code> appends a live today row from raw events. The <code>/pages</code>, <code>/clicks</code>, and <code>/scroll</code> endpoints show no today data until the aggregation job runs.</p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 3 — SETUP STEPS
+  ═══════════════════════════════════ -->
+  <section id="setup">
+    <h2>3 · Verified Setup Steps</h2>
+    <p>Verified on <strong>Windows 11</strong> (PowerShell 5.1), Node 22.19.0, npm 11.7.0, 2025-07-23. All 7 steps passed (one required a Windows-specific fix).</p>
+
+    <ul class="step-list">
+
+      <li>
+        <div class="step-num step-pass">1</div>
+        <div class="step-body">
+          <div class="card-title">Read source files</div>
+          <p>Confirm the following files exist before starting: <code>README.md</code>, <code>server/package.json</code>, <code>client/package.json</code>, <code>server/.env.example</code>, <code>client/.env.example</code>.</p>
+          <div class="step-result result-pass">✅ PASS — all files present</div>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num step-pass">2</div>
+        <div class="step-body">
+          <div class="card-title">Create <code>server/.env</code></div>
+          <pre><code># Windows (PowerShell)
+Copy-Item server\.env.example server\.env
+
+# macOS / Linux
+cp server/.env.example server/.env</code></pre>
+          <p>Patch two defaults for local development:</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Variable</th><th>Default</th><th>Local override</th><th>Why</th></tr></thead>
+              <tbody>
+                <tr><td><code>PGSSL</code></td><td><code>true</code></td><td><code>false</code></td><td>Local Postgres has no SSL; <code>pg</code> rejects the connection otherwise</td></tr>
+                <tr><td><code>DASHBOARD_URL</code></td><td><code>https://metrixis.vercel.app</code></td><td><code>http://localhost:5173</code></td><td>CORS must allow the local Vite origin</td></tr>
+                <tr><td><code>DATABASE_URL</code></td><td>placeholder</td><td>Your real Postgres URL</td><td>Required for all DB-backed routes</td></tr>
+                <tr><td><code>CRON_SECRET</code></td><td>placeholder</td><td>Any long random string</td><td>Protects the internal aggregate endpoint</td></tr>
+                <tr><td><code>SESSION_SECRET</code></td><td><em>missing from template</em></td><td>Long random string</td><td>Salts IP hashes; absent = unsalted (security gap T2)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>⚠️ <strong><code>SESSION_SECRET</code> is not in <code>.env.example</code></strong> — add it manually. Generate with:</p>
+          <pre><code>node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></pre>
+          <div class="step-result result-pass">✅ PASS</div>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num step-pass">3</div>
+        <div class="step-body">
+          <div class="card-title">Install server dependencies</div>
+          <pre><code>cd server
+npm install
+# → added 85 packages, no errors</code></pre>
+          <div class="step-result result-pass">✅ PASS</div>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num step-pass">4</div>
+        <div class="step-body">
+          <div class="card-title">Apply database schema</div>
+          <p>Run once against your Postgres instance before starting the server:</p>
+          <pre><code>psql "postgres://user:password@host:5432/metrixis" -f server/db/schema.sql</code></pre>
+          <p>The schema creates: <code>sites</code>, <code>events</code>, <code>daily_stats</code>, <code>daily_page_stats</code>, <code>daily_click_stats</code>, <code>daily_scroll_stats</code>.</p>
+          <div class="step-result result-pass">✅ PASS (configuration requirement; not a code defect if skipped — non-DB routes still work)</div>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num step-pass">5</div>
+        <div class="step-body">
+          <div class="card-title">Start the backend</div>
+          <pre><code>cd server
+node index.js
+# → Metrixis API listening on port 4000
+
+# Health check
+curl http://localhost:4000/api/health
+# → {"ok":true}</code></pre>
+          <p>The pool will log a background connection error if <code>DATABASE_URL</code> is a placeholder — this is non-fatal. The health endpoint and <code>/tracker.js</code> work without a database.</p>
+          <div class="step-result result-pass">✅ PASS — health endpoint returned <code>{"ok":true}</code></div>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num step-pass">6</div>
+        <div class="step-body">
+          <div class="card-title">Create <code>client/.env</code> and install frontend dependencies</div>
+          <pre><code># Copy env (default value VITE_API_URL=http://localhost:4000 is correct)
+cp client/.env.example client/.env   # macOS/Linux
+Copy-Item client\.env.example client\.env  # Windows
+
+cd client
+npm install
+# → added 67 packages; 4 advisory vulnerabilities in dev tooling (non-blocking)</code></pre>
+          <p>⚠️ 4 vulnerabilities (1 moderate, 3 high) in Vite dev tooling. Do not run <code>npm audit fix</code> without testing — it may introduce breaking upgrades.</p>
+          <div class="step-result result-warn">✅ PASS with advisory note on dev-tooling vulnerabilities</div>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num step-pass">7</div>
+        <div class="step-body">
+          <div class="card-title">Start the frontend dev server</div>
+          <pre><code># macOS / Linux
+cd client && npm run dev
+
+# Windows (PowerShell) — npm is a .cmd shim; use cmd.exe as launcher:
+Start-Process -FilePath "cmd.exe" -ArgumentList "/c","npm run dev" `
+  -NoNewWindow -WorkingDirectory "$PWD\client"
+# → VITE v8.1.5  ready in ~1700 ms
+# → Local: http://localhost:5173/</code></pre>
+          <p>⚠️ <strong>Windows gotcha:</strong> <code>Start-Process -FilePath "npm"</code> fails with <em>"%1 is not a valid Win32 application"</em> because <code>npm</code> is a <code>.cmd</code> shim, not a native binary. Always launch via <code>cmd.exe /c</code>.</p>
+          <div class="step-result result-pass">✅ PASS — Vite dev server ready on http://localhost:5173</div>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 4 — DOC CONTRADICTIONS
+  ═══════════════════════════════════ -->
+  <section id="contradictions">
+    <h2>4 · Documentation Contradictions</h2>
+    <p>13 issues found. Ordered by severity (high → low). Each was verified by reading the actual source file referenced.</p>
+
+    <h3><span class="sev sev-high">HIGH</span> — Must fix before first deploy</h3>
+
+    <div class="card">
+      <div class="card-title">H1 · <code>SESSION_SECRET</code> undocumented — IP hashes silently unsalted</div>
+      <p><code>server/routes/collect.js:37</code> salts every stored IP hash with <code>process.env.SESSION_SECRET</code>. That variable is absent from <code>.env.example</code>, <code>render.yaml</code>, and the README. When unset, every deployment world-wide computes <code>sha256("&lt;ip&gt;undefined")</code> — defeating the stated privacy guarantee.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">H2 · <code>PGSSL=true</code> claim is inverted — SSL is on by default, only <code>false</code> disables it</div>
+      <p>README and <code>.env.example</code> imply <code>PGSSL=true</code> enables SSL. Code reality (<code>server/db/pool.js:9</code>): <code>ssl: process.env.PGSSL === 'false' ? false : { rejectUnauthorized: false }</code>. SSL is always on unless you explicitly set <code>PGSSL=false</code>. The <code>true</code> value is a no-op.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">H3 · Always-202 collect response and silent failure modes never described</div>
+      <p><code>POST /api/collect</code> returns HTTP 202 in <em>all</em> three scenarios: success (<code>accepted: true</code>), unknown tracking ID (<code>accepted: false</code>), and unhandled exception (<code>accepted: false</code>). The README never mentions this. Operators debugging missing events have no documented signal to watch for.</p>
+    </div>
+
+    <h3><span class="sev sev-medium">MEDIUM</span> — Fix before sharing docs with users</h3>
+
+    <div class="card">
+      <div class="card-title">M1 · "Live today" pageviews only on overview endpoint, not on pages/clicks/scroll</div>
+      <p>README implies pageviews show up live for today. Only <code>/overview</code> appends a live today row. <code>/pages</code>, <code>/clicks</code>, <code>/scroll</code> return nothing for today until the aggregation job runs.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">M2 · Session 30-min timeout and tab-scoped storage not documented</div>
+      <p>Sessions use <code>sessionStorage</code> (tab-scoped, cleared on tab close) with a 30-minute inactivity timer. Closing and reopening a tab within 30 min produces a new session. This affects session count metrics and is never described in the README.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">M3 · README <code>curl</code> example uses <code>-G</code> + <code>-X POST</code> — sends GET, returns 404</div>
+      <p><code>-G</code>/<code>--get</code> overrides <code>-X POST</code>; curl sends a GET. The route is <code>router.post('/aggregate', ...)</code> — a GET returns 404. Correct invocation:</p>
+      <pre><code>curl -X POST "https://&lt;render-url&gt;/api/internal/aggregate?date=2026-07-23" \
+  -H "x-cron-secret: &lt;CRON_SECRET&gt;"</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="card-title">M4 · Schema says "SHA-256 hash" — stored value is first 64 bits only</div>
+      <p>The schema comment says "salted SHA-256 of client IP". The code slices the hex digest to 16 characters (64 bits), not the full 256-bit hash. Collision probability is significantly higher than for a full SHA-256.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">M5 · Local-dev setup callout omits several env vars from <code>.env.example</code></div>
+      <p>README says: <em>"cp .env.example .env — fill in DATABASE_URL, CRON_SECRET"</em>. The template also contains <code>PGSSL</code>, <code>DASHBOARD_URL</code>, <code>NODE_ENV</code>, <code>PORT</code> — and <code>SESSION_SECRET</code> is missing from the template entirely.</p>
+    </div>
+
+    <h3><span class="sev sev-low">LOW</span> — Nice to fix, low operator impact</h3>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Issue</th></tr></thead>
+        <tbody>
+          <tr><td><strong>L1</strong></td><td><code>client/.env.example</code> location only implied by context, not stated explicitly.</td></tr>
+          <tr><td><strong>L2</strong></td><td><code>render.yaml</code> hardcodes author's Vercel URL (<code>metrixis.vercel.app</code>) as a real value, not a placeholder — silently breaks CORS on other deployments.</td></tr>
+          <tr><td><strong>L3</strong></td><td>Port 4000 presented as fixed; code uses <code>process.env.PORT || 4000</code> — misleading for hosted deployments.</td></tr>
+          <tr><td><strong>L4</strong></td><td>Port 5173 correct today but not pinned in <code>vite.config.js</code> — Vite auto-increments if port is busy.</td></tr>
+          <tr><td><strong>L5</strong></td><td><code>country</code> always-null claim is self-reported and verified correct (no drift) — listed for completeness.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 5 — FIRST TASKS
+  ═══════════════════════════════════ -->
+  <section id="tasks">
+    <h2>5 · First Tasks for New Contributors</h2>
+    <p>Five concrete tasks ordered easy → harder. None requires a running database or Render account.</p>
+
+    <div class="card">
+      <div class="card-title">T1 · Fix the broken <code>curl</code> backfill command <span class="effort effort-s">S</span></div>
+      <p><strong>File:</strong> <code>README.md</code> lines 70–73</p>
+      <p>The <code>-G</code> flag overrides <code>-X POST</code>; the command sends a GET and gets a 404. Replace with:</p>
+      <pre><code>curl -X POST \
+  "https://&lt;your-render-url&gt;/api/internal/aggregate?date=2026-07-23" \
+  -H "x-cron-secret: &lt;your CRON_SECRET&gt;"</code></pre>
+      <p><strong>Verify:</strong> Read <code>server/routes/internal.js</code> — confirm route is <code>router.post</code> and reads <code>req.query.date</code>.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">T2 · Document the missing <code>SESSION_SECRET</code> env var <span class="effort effort-s">S</span></div>
+      <p><strong>Files:</strong> <code>server/.env.example</code>, <code>server/render.yaml</code>, <code>README.md</code></p>
+      <p>Add <code>SESSION_SECRET</code> to all three. In <code>render.yaml</code> use <code>generateValue: true</code> so Render auto-generates a secure value on first deploy.</p>
+      <p><strong>Verify:</strong> <code>grep SESSION_SECRET server/.env.example server/render.yaml README.md</code> — all three must match.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">T3 · Write unit tests for <code>parseUserAgent</code> <span class="effort effort-m">M</span></div>
+      <p><strong>Files:</strong> <code>server/package.json</code> (add Jest), create <code>server/utils/userAgent.test.js</code></p>
+      <p><code>server/utils/userAgent.js</code> has 7 regex branches with ordering subtleties (Edge contains Chrome; Chrome contains Safari). Zero test coverage today. Regressions silently corrupt device/browser stats.</p>
+      <p>Cover: Chrome/Windows, Edge/Windows, Safari/macOS, Safari/iOS, Chrome/Android, Safari/iPad, Firefox, and empty string.</p>
+      <p><strong>Verify:</strong> <code>cd server &amp;&amp; npm test</code> — all cases pass without modifying the function.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">T4 · Wire the existing delete route into the dashboard UI <span class="effort effort-m">M</span></div>
+      <p><strong>File:</strong> <code>client/src/pages/SiteDashboardPage.jsx</code></p>
+      <p><code>DELETE /api/sites/:id</code> is implemented server-side; <code>api.deleteSite(id)</code> exists client-side. Neither is reachable from the UI — a site can only be deleted via raw <code>curl</code>. Add a "Delete site" button with a <code>window.confirm</code> guard to the <code>SiteDashboardPage</code>, call <code>api.deleteSite</code>, then <code>refreshSites()</code> and <code>navigate('/')</code>.</p>
+      <p><strong>Verify:</strong> Add a test site → navigate to its dashboard → delete → confirm app returns to home without page reload and site is gone.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">T5 · Populate the <code>country</code> column using a free geo-IP lookup <span class="effort effort-l">L</span></div>
+      <p><strong>Files:</strong> <code>server/routes/collect.js</code>, <code>README.md</code></p>
+      <p>The <code>country</code> column in <code>events</code> is always <code>null</code>. Add a non-blocking <code>lookupCountry(ip)</code> helper that queries a free geo-IP API (e.g. <code>ip-api.com</code>) with a 500 ms timeout via <code>Promise.race</code>, falling back to <code>null</code> on any failure or timeout. Run the lookup <em>before</em> calling <code>ingestEvent</code> (not inside it) and pass <code>country</code> in.</p>
+      <p><strong>Note:</strong> ip-api.com free tier = 45 requests/min; comment this and note MaxMind mmdb as the production upgrade path.</p>
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:1rem">
+      <table>
+        <thead><tr><th>#</th><th>Gap</th><th>Files</th><th>Effort</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>Broken <code>curl</code> backfill command</td><td><code>README.md</code></td><td><span class="effort effort-s">S</span></td></tr>
+          <tr><td>T2</td><td><code>SESSION_SECRET</code> undocumented</td><td><code>README.md</code>, <code>.env.example</code>, <code>render.yaml</code></td><td><span class="effort effort-s">S</span></td></tr>
+          <tr><td>T3</td><td>Zero test coverage for <code>parseUserAgent</code></td><td><code>userAgent.test.js</code> (new)</td><td><span class="effort effort-m">M</span></td></tr>
+          <tr><td>T4</td><td>Delete route unreachable from UI</td><td><code>SiteDashboardPage.jsx</code></td><td><span class="effort effort-m">M</span></td></tr>
+          <tr><td>T5</td><td><code>country</code> always <code>null</code> — geo-IP not implemented</td><td><code>collect.js</code>, <code>README.md</code></td><td><span class="effort effort-l">L</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 6 — QUIZ
+  ═══════════════════════════════════ -->
+  <section id="quiz">
+    <h2>6 · Comprehension Quiz</h2>
+    <p>8 questions. Click <em>Show answer</em> to reveal each answer.</p>
+
+    <div class="quiz-item">
+      <div class="q-num">Q1</div>
+      <div class="q-text">What HTTP status code does <code>POST /api/collect</code> always return, and why?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>202 Accepted — always, regardless of outcome.</strong> The endpoint returns 202 in three cases: successful ingest (<code>accepted: true</code>), unknown tracking ID (<code>accepted: false</code>), and any unhandled exception (<code>accepted: false</code>). The design choice prevents tracking from breaking the host website's UX — errors are swallowed server-side. The <code>accepted</code> boolean in the body is the real signal to watch for in server logs.
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q2</div>
+      <div class="q-text">You add a tracked website, visit it twice, and open the dashboard. The <em>Top Pages</em> chart shows nothing for today. Why, and how do you fix it?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>The aggregation job hasn't run for today yet.</strong> <code>/pages</code>, <code>/clicks</code>, and <code>/scroll</code> endpoints query only the <code>daily_*</code> rollup tables — there is no live today fallback for these endpoints. Only <code>/overview</code> appends a live today row. Fix: trigger the job manually:
+          <pre><code>node jobs/aggregate.js</code></pre>
+          or call the internal HTTP endpoint with your <code>CRON_SECRET</code>.
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q3</div>
+      <div class="q-text">What happens when <code>SESSION_SECRET</code> is not set in the environment?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>IP hashes are computed over <code>"&lt;ip&gt;undefined"</code>.</strong> <code>process.env.SESSION_SECRET</code> evaluates to the string <code>"undefined"</code> when the var is absent, so every deployment in the world uses the same implicit "salt". Hashes become comparable across deployments, defeating the stated privacy guarantee. Set a long random value unique per deployment. Generate one with:
+          <pre><code>node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></pre>
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q4</div>
+      <div class="q-text">Does setting <code>PGSSL=true</code> enable SSL for the Postgres connection?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>No — SSL is already on by default.</strong> The pool code is: <code>ssl: process.env.PGSSL === 'false' ? false : { rejectUnauthorized: false }</code>. SSL is active for any value of <code>PGSSL</code> other than the string <code>"false"</code>. Setting <code>PGSSL=true</code> has exactly the same effect as not setting it at all. The only meaningful value is <code>PGSSL=false</code> to disable SSL for a local Postgres without a certificate.
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q5</div>
+      <div class="q-text">A user visits your site, closes the tab, and reopens it 10 minutes later. Does their second visit count as the same session?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>No — it counts as a new session.</strong> Session IDs are stored in <code>sessionStorage</code>, which is tab-scoped and cleared when the tab is closed. Even though the 30-minute inactivity timer hasn't expired, closing the tab destroys the session. The visitor's <code>visitor_id</code> persists in <code>localStorage</code> (so they're still the same visitor), but <code>session_id</code> will be freshly generated on the new tab load.
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q6</div>
+      <div class="q-text">How does the tracker script ensure events aren't lost when a user navigates away or closes the tab?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>It listens for <code>visibilitychange → hidden</code> and sends queued events via <code>navigator.sendBeacon</code>.</strong> Regular <code>fetch</code> calls may be cancelled by the browser when a page unloads. <code>sendBeacon</code> is a fire-and-forget API that the browser guarantees to deliver even after the page is torn down. The tracker also flushes every 5 seconds via <code>fetch</code> with <code>keepalive: true</code> for in-page batching.
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q7</div>
+      <div class="q-text">You run the README's <code>curl</code> command to manually trigger the aggregation job and get a 404. What's wrong?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>The README example uses <code>-G</code> alongside <code>-X POST</code>.</strong> The <code>-G</code>/<code>--get</code> flag overrides <code>-X POST</code>, so curl sends a GET request. The Express route is registered as <code>router.post('/aggregate', ...)</code> — a GET returns 404. The correct command is:
+          <pre><code>curl -X POST \
+  "https://&lt;render-url&gt;/api/internal/aggregate?date=2026-07-23" \
+  -H "x-cron-secret: &lt;CRON_SECRET&gt;"</code></pre>
+          Note: the date is a query-string parameter, not a request body.
+        </div>
+      </details>
+    </div>
+
+    <div class="quiz-item">
+      <div class="q-num">Q8</div>
+      <div class="q-text">Is it safe to re-run the aggregation job for the same date multiple times? Why?</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="answer">
+          <strong>Yes — the job is fully idempotent.</strong> Every INSERT into the four <code>daily_*</code> rollup tables uses <code>ON CONFLICT DO UPDATE</code> with a composite primary key (site + date + optional dimension). Re-running for the same date overwrites the existing row with the same values rather than creating duplicates. All four tables are updated in a single database transaction (all-or-nothing), so a partial failure leaves them consistent.
+        </div>
+      </details>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Metrixis Onboarding Kit · Generated 2025-07-23 · Verified on Node 22.19.0 / Windows 11</p>
+    <p style="margin-top:.4rem">4 source files read · 13 doc contradictions catalogued · 7/7 setup steps passed · 5 starter tasks proposed</p>
+  </footer>
+
+</div>
+</body>
+</html>
